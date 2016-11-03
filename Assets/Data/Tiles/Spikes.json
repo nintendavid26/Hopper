@@ -1,0 +1,13 @@
+{
+    "Name": "Spikes",
+    "Tag": "Hazard",
+    "s": {
+        "instanceID": 9306
+    },
+    "Scripts": [
+        {
+            "instanceID": -436400
+        }
+    ],
+    "FileName": ""
+}

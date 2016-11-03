@@ -1,0 +1,10 @@
+World 1-Yard=Grass
+
+World 2-
+
+Water-Kitchen/Bathroom,Fire-?,Electric-Internet?,Underground-Basement,Wall of house?,Clock&Dust-Attic,
+
+Mechanics:
+	AntiGravity
+	Powerup States
+	Switches

@@ -1,0 +1,13 @@
+{
+    "Name": "Wall",
+    "Tag": "Wall",
+    "s": {
+        "instanceID": 9356
+    },
+    "Scripts": [
+        {
+            "instanceID": -436656
+        }
+    ],
+    "FileName": ""
+}
