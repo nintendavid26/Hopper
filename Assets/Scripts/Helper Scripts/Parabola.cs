@@ -32,6 +32,11 @@ public class Parabola
         a = A;
         k = K;
     }
+
+    public Parabola()
+    {
+    }
+
     public void Update(Vector3 point, Vector3 vertex)
     {
         px = point.x;
@@ -105,7 +110,7 @@ public class Parabola
         return XtoY(x) + "=" + a + "(" + x + "-" + h + ")^2+" + k;
     }
     ///<summary>
-    ///2a(x-h)=Slope
+    ///2a(x-h)=Slope because of derivatives
     ///</summary>
     public float Slope(float x)
     {

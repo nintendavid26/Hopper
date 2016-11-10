@@ -12,14 +12,12 @@ public class WorldAndLevelSelect : MonoBehaviour {
     public List<SelectButton> Buttons;
     public SelectButton BackButton;
     public int World = 0;
-    public int maxLevel = 1;
     public Text display;
     public Color disabledColor, enabledColor;
    // public Button testButton;
 
     // Use this for initialization
     void Start() {
-        GetMaxLevel();
         InitializeButtons();
         foreach (SelectButton b in Buttons)
         {
@@ -27,7 +25,6 @@ public class WorldAndLevelSelect : MonoBehaviour {
             b.Button.onClick.AddListener(() => OnButtonPress(temp));
             //Test(b);
         }
-        Debug.Log(PlayerPrefs.GetInt("maxLevel"));
     }
 	
 	// Update is called once per frame
@@ -61,10 +58,13 @@ public class WorldAndLevelSelect : MonoBehaviour {
             b.State = ButtonState.Level;
             b.name = "Level " + b.Number;
             b.gameObject.transform.GetChild(0).GetComponent<Text>().text = b.name;
-            GetMaxLevel();
-            if (maxLevel % 10 >= b.Number)
+            if (Levels.MaxLevel % 10 >= b.Number)
             {
                 b.Button.gameObject.SetActive(true);
+                if (b.Number == SceneManager.sceneCountInBuildSettings - 1)
+                {
+                    b.Button.GetComponentInChildren<Text>().text = "Coming Soon";
+                }
 
             }
             else
@@ -92,8 +92,7 @@ public class WorldAndLevelSelect : MonoBehaviour {
                 b.State = ButtonState.World;
                 b.name = "World " + b.Number;
                 b.gameObject.transform.GetChild(0).GetComponent<Text>().text = b.name;
-                GetMaxLevel();
-                if (maxLevel / 10 >= b.Number - 1)
+                if (Levels.MaxLevel / 10 >= b.Number - 1)
                 {
                     b.Button.gameObject.SetActive(true);
 
@@ -112,11 +111,6 @@ public class WorldAndLevelSelect : MonoBehaviour {
         }
     }
 
-
-    public void GetMaxLevel()
-    {
-        maxLevel = PlayerPrefs.GetInt("maxLevel");
-    }
     public void Test(Button B)
     {
         Debug.Log(B.name);
@@ -154,7 +148,7 @@ public class WorldAndLevelSelect : MonoBehaviour {
         Buttons=Buttons.OrderBy( x =>x.Number).ToList();
         foreach (SelectButton b in Buttons)
         {
-            if (maxLevel / 10 >= b.Number-1)
+            if (Levels.MaxLevel / 10 >= b.Number-1)
             {
                 b.Button.gameObject.SetActive(true);
                 

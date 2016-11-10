@@ -116,7 +116,7 @@ public class Jump : MonoBehaviour {
         float constant = p.Width()/p.Height();//Two jump should take the same amount of time regardless of width
         Debug.Log(constant);
         float maxJumpSpeed=2;
-        if (constant >maxJumpSpeed) { constant =constant*2/3; }
+        if (constant >maxJumpSpeed) { constant =constant/2; }
         transform.rotation = Quaternion.identity;
         sfx.PlaySound("Jump");
         if (dj.p.h > transform.position.x)
@@ -228,6 +228,14 @@ public class Jump : MonoBehaviour {
     public bool MouseOverButton()
     {
         return false;
+    }
+
+    public GameObject CheckIfWentThroughObject(GameObject p1,GameObject p2)
+    {
+        //Draw Ray from p1 to p2
+        //if it hits a block
+        //land on that block
+        return null;
     }
 
 }

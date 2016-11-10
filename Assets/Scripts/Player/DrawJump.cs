@@ -18,6 +18,9 @@ public class DrawJump : MonoBehaviour {
     public Vector3 prevT;
     public SpriteRenderer s;
     public bool Dragging=false;
+    public string change = "i";
+    Vector3[] empty = { };
+
 
     public bool DragTouch
     {
@@ -47,7 +50,8 @@ public class DrawJump : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown("i"))
+        if (p == null){ p = new Parabola(); }
+        if (Input.GetKeyDown(change))
         {
             DragTouch = !DragTouch;
         }
@@ -104,18 +108,19 @@ public class DrawJump : MonoBehaviour {
     }
     void UpdateLine()
     {
-        Vector3[] empty = { };
-        Line.SetPositions(empty);//clear line
+        
+     //   Line.SetPositions(empty);//clear line
         if (ShouldDrawLine)
         {
             Line.enabled = true;
             if (p == null)
             {
+                Debug.Log("p was null");
                 p = new Parabola(transform.position, Vertex);
             }
             else { p.Change(transform.position, Vertex); }
             float x = transform.position.x;
-            Points = p.GeneratePoints(x, Vertex.x - x + Vertex.x);
+            Points = p.GeneratePoints(x, Vertex.x - x + Vertex.x,delta:0.2f);
            // Points.ToArray();
             Line.SetVertexCount(Points.ToArray().Length);
             Line.SetPositions(Points.ToArray());

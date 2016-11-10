@@ -15,6 +15,7 @@ public class Boss : MonoBehaviour
     public Vector3 WallSpawn;
     public SoundEffects sfx;
     public GameObject Finish;
+    public float deathFallSpeed = 6;
 
     public void Start()
     {
@@ -69,9 +70,16 @@ public class Boss : MonoBehaviour
         Destroy(GetComponent<BeeHive>());
         Destroy(Weakness);
         Instantiate(Finish, new Vector3(transform.position.x,transform.position.y-2,0), transform.rotation);
-        while (true)
+        if (deathFallSpeed != 0)
         {
-            transform.Translate(Vector3.down*Time.deltaTime*4);
+            while (true)
+            {
+                transform.Translate(Vector3.down * Time.deltaTime * 4);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
             yield return new WaitForEndOfFrame();
         }
 

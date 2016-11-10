@@ -4,7 +4,23 @@ using UnityEngine.SceneManagement;
 
 public class Levels : MonoBehaviour
 {
-    
+    public bool testing = false;
+    public GameObject goal;
+    public static int nonLevelScenes = 2;
+    public static int MaxLevel {
+        get {
+            return PlayerPrefs.GetInt("MaxLevel");
+        }
+        set { PlayerPrefs.SetInt("MaxLevel", value); }
+    }
+
+    public void Start()
+    {
+        if (testing)
+        {
+            Instantiate(goal, transform.position.setY(transform.position.y + 4), transform.rotation);
+        }
+    }
     public void Update()
     {
         if (Input.GetKeyDown("q"))
@@ -14,7 +30,7 @@ public class Levels : MonoBehaviour
     }
     public void ResetLevels()
     {
-        PlayerPrefs.SetInt("maxLevel", 1);
+        MaxLevel = 1;
         Debug.Log("levels reset");
     }
 
@@ -28,14 +44,23 @@ public class Levels : MonoBehaviour
     }
     public static void GoToNextLevel()
     {
-        if (PlayerPrefs.HasKey("maxLevel"))
-        {
-            int maxLevel = PlayerPrefs.GetInt("maxLevel");
-            if (SceneManager.GetActiveScene().buildIndex - 1 >= maxLevel)
-            {
-                PlayerPrefs.SetInt("maxLevel", maxLevel + 1);
+        /*
+          if  
+        */
+        int current = SceneManager.GetActiveScene().buildIndex-nonLevelScenes+1;
+        int next = current + 1;
+        int NumberOfLevels = SceneManager.sceneCountInBuildSettings-nonLevelScenes;
+        Debug.Log("current="+current+" next="+next+"NumberOfLevels="+NumberOfLevels+" MaxLevel="+MaxLevel);
+        if (next>=MaxLevel) {
+            MaxLevel = next;
             }
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (next > NumberOfLevels)
+        {
+            SceneManager.LoadScene(1);
         }
-    }
+        else{
+            SceneManager.LoadScene(next+nonLevelScenes-1);
+        }
+            
+        }
 }

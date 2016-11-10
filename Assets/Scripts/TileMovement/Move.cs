@@ -17,6 +17,7 @@ public class Move : MonoBehaviour {
         {
             waitTimes.Capacity = Checkpoints.Capacity;
         }
+        speed = speed / Time.timeScale;
 	}
 	
 	// Update is called once per frame

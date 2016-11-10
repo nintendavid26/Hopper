@@ -7,9 +7,12 @@ public class Crumble : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        Invoke("Adjust", 1);
 	}
-	
+	public void Adjust()
+    {
+        time = time*Time.timeScale;
+    }
 	// Update is called once per frame
 
 
