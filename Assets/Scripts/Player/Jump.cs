@@ -124,24 +124,24 @@ public class Jump : MonoBehaviour {
             while (ms==MovementState.Jumping)
             {
 
-                x = transform.position.x + Time.deltaTime * jumpSpeed*constant;
+                x = transform.position.x + Time.fixedDeltaTime * jumpSpeed*constant;
                 float y = p.XtoY(x);
                 if (transform.position.y - y > maxFallSpeed&&GoingDown()) { y = p.XtoY((x+transform.position.x) / 2); }
                 //Debug.Log("Speed=" + (transform.position.y - y));
                 transform.position = new Vector3(x, y);
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
         }
         else
         {
             while (ms==MovementState.Jumping)
             {
-                x = transform.position.x - Time.deltaTime * jumpSpeed*constant;//* some constant
+                x = transform.position.x - Time.fixedDeltaTime * jumpSpeed*constant;//* some constant
                 float y = p.XtoY(x);
                 if (transform.position.y - y > maxFallSpeed&GoingDown()) { y = p.XtoY((x + transform.position.x) / 2); }
                 //Debug.Log("Speed=" + (transform.position.y - y));
                 transform.position = new Vector3(x, y);
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
         }
         // transform.position = prev;
