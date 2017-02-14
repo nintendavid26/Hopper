@@ -17,7 +17,7 @@ public class Music : MonoBehaviour {
         get { return instance; }
     }
 
-    private static AudioSource Source
+    public static AudioSource Source
     {
         get
         {
@@ -65,7 +65,10 @@ public class Music : MonoBehaviour {
             CurrentSong = Songs[SceneManager.GetActiveScene().buildIndex];
             Source.loop = true;
             Source.clip = CurrentSong;
-            Source.Play();
+            if (PlayerPrefs.GetInt("Music") == 1)
+            {
+                Source.Play();
+            }
         }
     }
 
@@ -76,7 +79,10 @@ public class Music : MonoBehaviour {
         CurrentSong = Songs[SceneManager.GetActiveScene().buildIndex];
         Source.loop = true;
         Source.clip = CurrentSong;
-        Source.Play();
+        if (PlayerPrefs.GetInt("Music") == 1)
+        {
+            Source.Play();
+        }
     }
 	
 	// Update is called once per frame
@@ -86,5 +92,15 @@ public class Music : MonoBehaviour {
     public static void PlaySound(AudioClip Sound, float volume=1)
     {
         Source.PlayOneShot(Sound, volume);
+    }
+
+    public static void Stop()
+    {
+        Source.Stop();
+    }
+
+    public static void Play()
+    {
+        Source.Play();
     }
 }

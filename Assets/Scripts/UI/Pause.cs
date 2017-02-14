@@ -64,7 +64,8 @@ public class Pause : MonoBehaviour {
     {
         Debug.Log("Paused");
         Paused = true;
-        PauseMenu.gameObject.SetActive(true);Debug.Log(PauseMenu.gameObject.activeInHierarchy);
+        PauseMenu.gameObject.SetActive(true);
+        GameObject.Find("Level").GetComponent<Text>().text = SceneManager.GetActiveScene().name;
        // PauseMenu.PauseButton.gameObject.GetComponentInChildren<Text>().text="Resume";
     }
     public void UnPauseGame()

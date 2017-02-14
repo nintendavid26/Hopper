@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Levels : MonoBehaviour
 {
@@ -20,12 +21,18 @@ public class Levels : MonoBehaviour
         {
             Instantiate(goal, transform.position.setY(transform.position.y + 4), transform.rotation);
         }
+        
     }
     public void Update()
     {
         if (Input.GetKeyDown("q"))
         {
             ResetLevels();
+        }
+
+        if (Input.GetKeyDown("f"))
+        {
+            Debug.Log(GameObject.Find("Level"));
         }
     }
     public void ResetLevels()
@@ -39,6 +46,7 @@ public class Levels : MonoBehaviour
         if (c.tag == "Finish")
         {
             GoToNextLevel();
+            PlayerPrefs.SetInt("StartFromStart", 1);
         }
 
     }

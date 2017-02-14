@@ -25,6 +25,7 @@ public class Jump : MonoBehaviour {
         sfx = GetComponent<SoundEffects>();
         OnDie += OnDeath;
         Checkpoint = transform.position;
+        if(PlayerPrefs.GetInt("StartFromStart")==0)transform.position = new Vector3(PlayerPrefs.GetFloat("CheckPointX"), PlayerPrefs.GetFloat("CheckPointY"));
 	}
     void OnDisable()
     {
@@ -114,11 +115,11 @@ public class Jump : MonoBehaviour {
         float x;
         p = dj.p;
         float constant = p.Width()/p.Height();//Two jump should take the same amount of time regardless of width
-        Debug.Log(constant);
+        //Debug.Log(constant);
         float maxJumpSpeed=2;
         if (constant >maxJumpSpeed) { constant =constant/2; }
         transform.rotation = Quaternion.identity;
-        sfx.PlaySound("Jump");
+        sfx.PlaySound("Jump",RandomPitch: true);
         if (dj.p.h > transform.position.x)
         {
             while (ms==MovementState.Jumping)
@@ -208,7 +209,7 @@ public class Jump : MonoBehaviour {
     {
         sfx.PlaySound("Die");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        transform.position = Checkpoint;
+        //transform.position = Checkpoint;
         ms = MovementState.canJump;
       //  OnDie();
     }
@@ -237,5 +238,11 @@ public class Jump : MonoBehaviour {
         //land on that block
         return null;
     }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void OnBeforeSceneLoadRuntimeMethod()
+    {
+        PlayerPrefs.SetInt("StartFromStart", 1);
+    }
+
 
 }

@@ -151,6 +151,7 @@ public class TileEditor : Editor
             container.transform.parent = selectedTile.transform.parent;
             selectedTile.transform.parent = Parent.transform;
             selectedTile.Parent = container;
+            Parent = container;
         }
         for (int i = 0; i < howMany; i++)
         {
@@ -163,16 +164,16 @@ public class TileEditor : Editor
             {
                 case "W":
                     newTile = Instantiate(selectedTile.BaseTile.gameObject,
-                        new Vector3(t.position.x - t.localScale.x, t.position.y), Quaternion.identity) as GameObject;
+                        new Vector3(t.position.x - t.localScale.x, t.position.y), Quaternion.identity,Parent.transform) as GameObject;
                     break;
                 case "N":
-                    newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x, t.position.y + t.localScale.y), Quaternion.identity) as GameObject;
+                    newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x, t.position.y + t.localScale.y), Quaternion.identity,Parent.transform) as GameObject;
                     break;
                 case "S":
-                    newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x, t.position.y - t.localScale.y), Quaternion.identity) as GameObject;
+                    newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x, t.position.y - t.localScale.y), Quaternion.identity,Parent.transform) as GameObject;
                     break;
                 case "E":
-                    newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x + t.localScale.x, t.position.y), Quaternion.identity) as GameObject;
+                    newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x + t.localScale.x, t.position.y), Quaternion.identity,Parent.transform) as GameObject;
                     break;
                 default:
                     newTile = Instantiate(selectedTile.BaseTile.gameObject, new Vector3(t.position.x + t.localScale.x, t.position.y), Quaternion.identity) as GameObject;
@@ -356,7 +357,7 @@ public class TileEditor : Editor
             foreach (MonoBehaviour mb in td.Scripts)
             {
                 try{
-                    if (mb == null) { Debug.Log("mb is null, but script works"); }
+                    if (mb == null) { Debug.Log("mb is null, but script works for some reason"); }
                     if (mb.GetType() != typeof(Tile))
                     {
                         Type T = mb.GetType();
