@@ -3,7 +3,6 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BitStrap;
 
 public static class ExtensionMethods {
 
@@ -32,6 +31,43 @@ public static class ExtensionMethods {
     public static void testBeeHive(this BeeHive B)
     {
         Debug.Log("hive"+B.transform.position);
+    }
+
+    public static bool AllSame<T>(this List<T> list,T val)//Can check for given value or any value
+    {
+        if (list == null)
+        {
+            return true;
+        }
+        if (list.Capacity < 1)//Should it return true for 0 or 1 item list?
+        {
+            return true;
+        }
+        foreach (T i in list)
+        {
+            if (!Equals(i,val))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void SetAll<T>(this List<T> list, T val)
+    {
+        for (int i = 0; i < list.Capacity; i++)
+        {
+            list[i] = val;
+        }
+    }
+
+
+
+    public static List<T> RemoveLast<T>(this List<T> list )
+    {
+        List<T> list2 = list;
+        list2.RemoveAt(list2.Count-1);
+        return list2;
     }
 
     public static void PlaySound(this MonoBehaviour g,string soundName,float volume=1,bool randomPitch=false)
