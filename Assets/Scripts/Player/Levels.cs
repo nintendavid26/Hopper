@@ -7,9 +7,10 @@ public class Levels : MonoBehaviour
 {
     public bool testing = false;
     public GameObject goal;
-    public static int nonLevelScenes = 2;
+    public static int nonLevelScenes = 3; //I don't like hard coding this, but it's alot easier
     public static int MaxLevel {
         get {
+            if (!PlayerPrefs.HasKey("MaxLevel")) { PlayerPrefs.SetInt("MaxLevel", 1); }
             return PlayerPrefs.GetInt("MaxLevel");
         }
         set { PlayerPrefs.SetInt("MaxLevel", value); }

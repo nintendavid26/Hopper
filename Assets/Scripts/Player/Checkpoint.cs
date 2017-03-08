@@ -13,4 +13,6 @@ public class Checkpoint : MonoBehaviour
             Debug.Log("Set Check");
         }
     }
+
+    //TODO Make it work with autoscroll levels (maybe, because I might not want checkpoints in auto-scroll )
 }

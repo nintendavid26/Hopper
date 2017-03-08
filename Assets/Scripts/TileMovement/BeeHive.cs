@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Collections;
+using TileMovement;
 
+[RequireComponent(typeof(SoundEffects))]
 public class BeeHive : MonoBehaviour
 {
     public GameObject TargetIcon;
@@ -26,11 +27,12 @@ public class BeeHive : MonoBehaviour
         }
 
     }
-    public void ShootBee()
+    void ShootBee()
     {
         if (Vector3.Distance(transform.position, Player.transform.position) > range) { return; }
-        Bee b = (Bee)Instantiate(bee, transform.position, transform.rotation);
+        Bee b = Instantiate(bee, transform.position, transform.rotation);
         b.Initialize(TargetIcon.transform.position,beeSpeed);
+        this.PlaySound("Shoot");
     }
 
 }

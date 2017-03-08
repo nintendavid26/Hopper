@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+
 public class Pause : MonoBehaviour {
 
     float BaseTimeScale;
@@ -16,25 +18,22 @@ public class Pause : MonoBehaviour {
             return paused;
         }
 
-        set
+        private set
         {
             paused = value;
-            if (paused)
-            {
-                Time.timeScale = 0;
-            }
-            else { Time.timeScale = 0.5f; }
+            Time.timeScale = paused ? 0 : 0.5f;
         }
     }
 
     // Use this for initialization
     void Start () {
         BaseTimeScale = Time.timeScale;
-        PauseMenu.gameObject.SetActive(false);
+        //PauseMenu.gameObject.SetActive(false);
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+        //UnPauseGame();
 	}
 
-    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
     {
         Debug.Log("Scene Change");
         Paused = false;
@@ -46,11 +45,16 @@ public class Pause : MonoBehaviour {
         if (Input.GetKeyDown("p")) {
             PausePressed();
         }
-	}
+        if (Paused && !PauseMenu.gameObject.activeSelf)
+        {
+            PauseMenu.gameObject.SetActive(true);
+        }
+        Debug.Log("Pause Menu Active=" + PauseMenu.gameObject.activeSelf);
+    }
 
     public void PausePressed()
     {
-        //play sound
+        //play sound?
         if (!Paused)
         {
             PauseGame();
@@ -59,8 +63,9 @@ public class Pause : MonoBehaviour {
         {
             UnPauseGame();
         }
+        Debug.Log("Pause Menu Active="+ PauseMenu.gameObject.activeSelf);
     }
-    public void PauseGame()
+    void PauseGame()
     {
         Debug.Log("Paused");
         Paused = true;

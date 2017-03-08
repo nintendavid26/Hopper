@@ -1,3 +1,4 @@
+using Helper_Scripts;
 using UnityEngine;
 [RequireComponent(typeof (LineRenderer))]
 public class Switch : MonoBehaviour
@@ -16,13 +17,13 @@ public class Switch : MonoBehaviour
     {
         if (Type == type.Key)
         {
-            GetComponent<SoundEffects>().PlaySound("Unlock",5);
+           this.PlaySound("Unlock",5);
             Destroy(Unlock);
             Destroy(gameObject);
         }
         else if (Type == type.OnOff)
         {
-            GetComponent<SoundEffects>().PlaySound("Unlock",5);
+            this.PlaySound("Unlock",5);
             Unlock.SetActive(!Unlock.activeInHierarchy);
             lr.enabled = !lr.enabled;
         }

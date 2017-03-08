@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(SoundEffects))]
 public class Jump : MonoBehaviour {
@@ -13,7 +11,6 @@ public class Jump : MonoBehaviour {
     public float jumpSpeed;
     public Vector2 prev;
     public float DeathHeight;
-    public SoundEffects sfx;
     public GameObject Wall;
     public static Vector2 Checkpoint;
     Parabola p { get; set; }
@@ -22,7 +19,6 @@ public class Jump : MonoBehaviour {
     void Start () {
         dj = GetComponent<DrawJump>();
         col = GetComponent<BoxCollider2D>();
-        sfx = GetComponent<SoundEffects>();
         OnDie += OnDeath;
         Checkpoint = transform.position;
         if(PlayerPrefs.GetInt("StartFromStart")==0)transform.position = new Vector3(PlayerPrefs.GetFloat("CheckPointX"), PlayerPrefs.GetFloat("CheckPointY"));
@@ -114,12 +110,12 @@ public class Jump : MonoBehaviour {
         dj.ShouldDrawLine = false;
         float x;
         p = dj.p;
-        float constant = p.Width()/p.Height();//Two jump should take the same amount of time regardless of width
+        float constant = p.Width()/p.Height();//Two jumps with same height should take the same amount of time regardless of width
         //Debug.Log(constant);
         float maxJumpSpeed=2;
-        if (constant >maxJumpSpeed) { constant =constant/2; }
+        if (constant >maxJumpSpeed) { constant =constant/2; }//there's probably a better way to do this that I'll think of later
         transform.rotation = Quaternion.identity;
-        sfx.PlaySound("Jump",RandomPitch: true);
+        this.PlaySound("Jump",randomPitch: true);
         if (dj.p.h > transform.position.x)
         {
             while (ms==MovementState.Jumping)
@@ -129,7 +125,8 @@ public class Jump : MonoBehaviour {
                 float y = p.XtoY(x);
                 if (transform.position.y - y > maxFallSpeed&&GoingDown()) { y = p.XtoY((x+transform.position.x) / 2); }
                 //Debug.Log("Speed=" + (transform.position.y - y));
-                transform.position = new Vector3(x, y);
+                //transform.position = Vector3.MoveTowards(transform.position, new Vector3(x, y),Time.deltaTime);
+                transform.position = new Vector3(x, y);// setting position is glitchy with physics
                 yield return new WaitForFixedUpdate();
             }
         }
@@ -141,6 +138,7 @@ public class Jump : MonoBehaviour {
                 float y = p.XtoY(x);
                 if (transform.position.y - y > maxFallSpeed&GoingDown()) { y = p.XtoY((x + transform.position.x) / 2); }
                 //Debug.Log("Speed=" + (transform.position.y - y));
+                //transform.position = Vector3.MoveTowards(transform.position, new Vector3(x, y), 1);
                 transform.position = new Vector3(x, y);
                 yield return new WaitForFixedUpdate();
             }
@@ -152,11 +150,11 @@ public class Jump : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.tag == "Wall")
+        if (c.CompareTag("Wall"))
         {
             ms = MovementState.FreeFall;
         }
-        else if (c.tag == "Ground")
+        else if (c.CompareTag("Ground"))
         {
             if (GoingDown())
             {
@@ -177,15 +175,15 @@ public class Jump : MonoBehaviour {
 
             }
         }
-       else if (c.tag == "Hazard")
+       else if (c.CompareTag("Hazard"))
         {
             OnDeath();
         }
-        else if (c.tag == "Rope"&&(ms==MovementState.FreeFall||ms==MovementState.Jumping))
+        else if (c.CompareTag("Rope")&&(ms==MovementState.FreeFall||ms==MovementState.Jumping))
         {
             GoOnRope(c.gameObject);
         }
-        else if (c.tag == "Bridge"&&GoingDown())
+        else if (c.CompareTag("Bridge")&&GoingDown())
         {
             LandOnGround(c,false);
         }
@@ -207,7 +205,7 @@ public class Jump : MonoBehaviour {
     public static event Die OnDie;
     public void OnDeath()
     {
-        sfx.PlaySound("Die");
+        this.PlaySound("Die");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         //transform.position = Checkpoint;
         ms = MovementState.canJump;
