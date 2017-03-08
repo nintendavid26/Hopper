@@ -1,67 +1,76 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Reflection;
+
 //using System.Diagnostics;
 
-public class Music : MonoBehaviour {
+namespace Helper_Scripts
+{
+    public class Music : MonoBehaviour {
 
-    public AudioClip CurrentSong;
-    private static AudioSource Source1;
-    public List<AudioClip> Songs;
+        public AudioClip CurrentSong;
+        private static AudioSource _source1;
+        public List<AudioClip> Songs;
 
-    private static Music instance = null;
-    public static Music Instance
-    {
-        get { return instance; }
-    }
+        private static Music _instance = null;
 
-    public static AudioSource Source
-    {
-        get
+
+        public static AudioSource Source
         {
-            if (Source1 == null) { Source = instance.GetComponent<AudioSource>(); }
-            return Source1;
+            get
+            {
+                if (_source1 == null) { Source = _instance.GetComponent<AudioSource>(); }
+                return _source1;
+            }
+
+            set
+            {
+                _source1 = value;
+            }
         }
 
-        set
+        void Awake()
         {
-            Source1 = value;
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+            // SceneManager.activeSceneChanged += SceneManager_activeSceneChanged1; ;
         }
-    }
 
-    void Awake()
-    {
-        if (instance != null && instance != this)
+        void OnEnable()
         {
-            Destroy(gameObject);
-            return;
-        }
-        else
-        {
-            instance = this;
-        }
-        DontDestroyOnLoad(gameObject);
-       // SceneManager.activeSceneChanged += SceneManager_activeSceneChanged1; ;
-    }
-
-    void OnEnable()
-    {
        
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
-    }
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+        }
 
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-    }
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+        }
 
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        if (CurrentSong != Songs[SceneManager.GetActiveScene().buildIndex])
+        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        {
+            if (CurrentSong != Songs[SceneManager.GetActiveScene().buildIndex])
+            {
+                Source.Stop();
+                CurrentSong = Songs[SceneManager.GetActiveScene().buildIndex];
+                Source.loop = true;
+                Source.clip = CurrentSong;
+                if (PlayerPrefs.GetInt("Music") == 1)
+                {
+                    Source.Play();
+                }
+            }
+        }
+
+        void Start()
         {
             Source.Stop();
+            Source = GetComponent<AudioSource>();
             CurrentSong = Songs[SceneManager.GetActiveScene().buildIndex];
             Source.loop = true;
             Source.clip = CurrentSong;
@@ -70,37 +79,22 @@ public class Music : MonoBehaviour {
                 Source.Play();
             }
         }
-    }
+	
+        // Update is called once per frame
 
-    void Start()
-    {
-        Source.Stop();
-        Source = GetComponent<AudioSource>();
-        CurrentSong = Songs[SceneManager.GetActiveScene().buildIndex];
-        Source.loop = true;
-        Source.clip = CurrentSong;
-        if (PlayerPrefs.GetInt("Music") == 1)
+        public static void PlaySound(AudioClip sound, float volume=1)
+        {
+            Source.PlayOneShot(sound, volume);
+        }
+
+        public static void Stop()
+        {
+            Source.Stop();
+        }
+
+        public static void Play()
         {
             Source.Play();
         }
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-    public static void PlaySound(AudioClip Sound, float volume=1)
-    {
-        Source.PlayOneShot(Sound, volume);
-    }
-
-    public static void Stop()
-    {
-        Source.Stop();
-    }
-
-    public static void Play()
-    {
-        Source.Play();
     }
 }

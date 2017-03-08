@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Helper_Scripts;
 
 [Serializable]
 public class SoundEffects : MonoBehaviour {
@@ -25,11 +26,11 @@ public class SoundEffects : MonoBehaviour {
             if (RandomPitch)
             {
                 float r = UnityEngine.Random.Range(0.75f, 1.25f);
-                Debug.Log(r);
+                //Debug.Log(r);
                 Music.Source.pitch = r;
             }
             Music.PlaySound(s, volume);
-            Music.Source.pitch = 1;//Fix Later
+            Music.Source.pitch = 1;
         }
         catch (Exception e)
         {

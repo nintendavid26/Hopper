@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Helper_Scripts;
 
 public class Crumble : MonoBehaviour {
 
@@ -24,14 +25,14 @@ public class Crumble : MonoBehaviour {
         }
         if (name.Contains("Leaf"))
         {
-            GetComponent<SoundEffects>().PlaySound("Snap");
+           this.PlaySound("Snap");
         }
         Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.tag == "Player")
+        if (c.CompareTag("Player"))
         {
             Invoke("Destroy", time);
         }

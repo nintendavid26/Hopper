@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Helper_Scripts;
 using UnityEngine;
 
 public class Boss : MonoBehaviour

@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-public class SelectButton : MonoBehaviour
+namespace UI
 {
-
-    public WorldAndLevelSelect.ButtonState State;
-    public int Number;
-    public Button Button
+    public class SelectButton : MonoBehaviour
     {
-        get { return GetComponent<Button>(); }
-    }
 
+        public WorldAndLevelSelect.ButtonState State;
+        public int Number;
+        public Button Button
+        {
+            get { return GetComponent<Button>(); }
+        }
+
+    }
 }

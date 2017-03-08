@@ -29,4 +29,13 @@ public class Rotate : MonoBehaviour {
             clockwise = !clockwise;
         }
     }
+
+    void OnDrawGizmos()
+    {
+        if (transform.childCount == 1)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position,Vector2.Distance(transform.position,transform.GetChild(0).position));
+        }
+    }   
 }
